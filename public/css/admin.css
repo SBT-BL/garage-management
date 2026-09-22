@@ -382,60 +382,71 @@ body.app-body-guest {
     width: auto;
 }
 
-/* Right side: reload button + search */
+/* Right side: reload (fixed) + search (flexible) */
 .dataTables_wrapper .dt-toolbar-right {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: flex-end;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 0.5rem;
 }
 
 .dataTables_wrapper .dt-toolbar-right .dt-buttons {
-    float: none;
-    display: inline-flex;
+    float: none !important;
+    display: inline-flex !important;
     align-items: center;
+    justify-content: center;
     gap: 0.35rem;
-    margin: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: fit-content !important;
+}
+
+.dataTables_wrapper .dt-toolbar-right .dt-buttons .btn,
+.dataTables_wrapper .dt-btn-reload {
+    float: none !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+    width: 2.25rem !important;
+    min-width: 2.25rem !important;
+    max-width: 2.25rem !important;
+    height: 2.25rem !important;
+    padding: 0 !important;
+    line-height: 1 !important;
 }
 
 .dataTables_wrapper .dt-toolbar-right .dataTables_filter {
-    float: none;
-    margin: 0;
-    text-align: left;
+    float: none !important;
+    display: block !important;
+    margin: 0 !important;
+    text-align: left !important;
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 18rem;
 }
 
 .dataTables_wrapper .dt-toolbar-right .dataTables_filter label {
-    margin-bottom: 0;
+    display: flex !important;
+    align-items: center;
+    width: 100% !important;
+    margin: 0 !important;
 }
 
+.dataTables_wrapper .dt-toolbar-right .dataTables_filter input,
 .dataTables_wrapper .dataTables_filter input {
     margin-left: 0 !important;
-    min-width: 12rem;
-}
-
-.dataTables_wrapper .dt-buttons .btn {
-    margin: 0;
-}
-
-.dataTables_wrapper .dt-btn-reload {
-    width: 2.15rem;
-    height: 2.15rem;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@media (max-width: 767.98px) {
-    .dataTables_wrapper .dt-toolbar-right {
-        justify-content: flex-start;
-    }
-
-    .dataTables_wrapper .dataTables_filter input {
-        min-width: 10rem;
-        width: 100%;
-    }
+    margin-right: 0 !important;
+    flex: 1 1 auto;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 2.25rem;
 }
 
 .dataTables_wrapper .dataTables_info {
@@ -474,6 +485,86 @@ table.dataTable thead th {
 table.dataTable tbody td {
     vertical-align: middle;
     color: #495057;
+}
+
+table.dataTable.nowrap th,
+table.dataTable.nowrap td {
+    white-space: nowrap;
+}
+
+/* Responsive child-row details */
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before,
+table.dataTable.dtr-column.collapsed > tbody > tr > td.dtr-control:before,
+table.dataTable.dtr-column.collapsed > tbody > tr > th.dtr-control:before {
+    background-color: var(--app-primary);
+    border: none;
+    box-shadow: none;
+    line-height: 1em;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details {
+    width: 100%;
+    display: block;
+}
+
+table.dataTable > tbody > tr.child span.dtr-title {
+    min-width: 6rem;
+    font-weight: 600;
+    color: #878a99;
+}
+
+table.dataTable > tbody > tr.child span.dtr-data {
+    color: #495057;
+    white-space: normal;
+    word-break: break-word;
+}
+
+@media (max-width: 767.98px) {
+    .dataTables_wrapper .dt-toolbar > [class*="col-"] {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+
+    .dataTables_wrapper .dt-toolbar-right {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .dataTables_wrapper .dataTables_length {
+        width: 100%;
+    }
+
+    .dataTables_wrapper .dt-toolbar-right .dataTables_filter {
+        max-width: none;
+        flex: 1 1 0% !important;
+    }
+
+    .dataTables_wrapper .dt-toolbar-right .dataTables_filter input {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dt-footer > [class*="col-"] {
+        width: 100%;
+        max-width: 100%;
+        text-align: center !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        float: none !important;
+        text-align: center;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+        text-align: center;
+        padding-bottom: 0.35rem;
+    }
+
+    table.dataTable tbody td .btn-icon {
+        width: 2.15rem;
+        height: 2.15rem;
+    }
 }
 
 .app-overlay {
@@ -603,3 +694,48 @@ body.sidebar-collapsed .app-menu-link {
 #commonModalOver .modal-body {
     padding-top: 1rem;
 }
+
+/* ---------- PWA install prompt ---------- */
+.pwa-install-btn {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1100;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--app-primary);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    box-shadow: 0 0.5rem 1.25rem rgba(64, 81, 137, 0.35);
+    cursor: pointer;
+}
+
+.pwa-install-btn:hover,
+.pwa-install-btn:focus-visible {
+    color: #fff;
+    filter: brightness(0.95);
+    outline: none;
+}
+
+.pwa-install-btn .bi {
+    font-size: 1rem;
+}
+
+@media (max-width: 575.98px) {
+    .pwa-install-btn {
+        right: 0.75rem;
+        bottom: 0.75rem;
+        padding: 0.75rem 0.95rem;
+    }
+
+    .pwa-install-label {
+        display: none;
+    }
+}
+

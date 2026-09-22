@@ -75,26 +75,34 @@ class CustomersDataTable extends BaseDataTable
                 ->width(50)
                 ->addClass('text-center')
                 ->searchable(false)
-                ->orderable(false),
+                ->orderable(false)
+                ->responsivePriority(5),
             Column::make('name')
                 ->title('Customer')
-                ->name('name'),
+                ->name('name')
+                ->responsivePriority(1),
             Column::make('whatsapp_number')
-                ->title('WhatsApp'),
+                ->title('WhatsApp')
+                ->responsivePriority(3)
+                ->addClass('text-nowrap'),
             Column::make('address')
                 ->title('Address')
-                ->orderable(false),
+                ->orderable(false)
+                ->responsivePriority(4),
             Column::make('created_at')
                 ->title('Added')
-                ->searchable(false),
+                ->searchable(false)
+                ->responsivePriority(6)
+                ->addClass('text-nowrap'),
             Column::computed('action')
                 ->title('Action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(120)
-                ->addClass('text-end')
+                ->addClass('text-end text-nowrap')
                 ->searchable(false)
-                ->orderable(false),
+                ->orderable(false)
+                ->responsivePriority(2),
         ];
     }
 

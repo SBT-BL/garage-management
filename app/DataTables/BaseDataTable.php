@@ -19,7 +19,7 @@ abstract class BaseDataTable extends DataTable
     {
         return "<'row align-items-center g-2 mb-3 dt-toolbar'"
             ."<'col-sm-12 col-md-6'l>"
-            ."<'col-sm-12 col-md-6 dt-toolbar-right'Bf>"
+            ."<'col-sm-12 col-md-6 dt-toolbar-right'fB>"
             .'>'
             ."<'row'<'col-12'tr>>"
             ."<'row align-items-center g-2 mt-2 dt-footer'"
@@ -38,8 +38,21 @@ abstract class BaseDataTable extends DataTable
         return [
             'pageLength' => 10,
             'lengthMenu' => [[10, 25, 50, 100], [10, 25, 50, 100]],
-            'responsive' => true,
+            'responsive' => [
+                'details' => [
+                    'type' => 'column',
+                    'target' => 0,
+                ],
+            ],
+            'columnDefs' => [
+                [
+                    'className' => 'dtr-control',
+                    'orderable' => false,
+                    'targets' => 0,
+                ],
+            ],
             'autoWidth' => false,
+            'scrollX' => false,
             'processing' => true,
             'serverSide' => true,
             'language' => [

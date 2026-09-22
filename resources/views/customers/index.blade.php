@@ -34,7 +34,7 @@
             <h2 class="h5 mb-0">Customers List</h2>
         </div>
 
-        {!! $dataTable->table(['class' => 'table table-hover table-customers w-100 mb-0']) !!}
+        {!! $dataTable->table(['class' => 'table table-hover table-customers dt-responsive nowrap w-100 mb-0']) !!}
     </div>
 </div>
 

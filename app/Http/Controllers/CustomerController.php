@@ -2,42 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\CustomersDataTable;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CustomerController extends Controller
 {
-    private const PER_PAGE_OPTIONS = [10, 15, 25, 50];
-
     /**
-     * Display a listing of customers.
+     * Display a listing of customers (Yajra DataTables).
      */
-    public function index(Request $request): View
+    public function index(CustomersDataTable $dataTable): View|JsonResponse
     {
-        $search = $request->string('search')->trim()->toString();
-        $perPage = (int) $request->input('per_page', 10);
-
-        if (! in_array($perPage, self::PER_PAGE_OPTIONS, true)) {
-            $perPage = 10;
-        }
-
-        $customers = Customer::query()
-            ->search($search)
-            ->latest()
-            ->paginate($perPage)
-            ->withQueryString();
-
-        return view('customers.index', [
-            'customers' => $customers,
-            'search' => $search,
-            'perPage' => $perPage,
-            'perPageOptions' => self::PER_PAGE_OPTIONS,
-        ]);
+        return $dataTable->render('customers.index');
     }
 
     /**
@@ -65,6 +46,8 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer): View
     {
+        $customer->load(['vehicles' => fn ($query) => $query->latest()]);
+
         return view('customers.show', compact('customer'));
     }
 

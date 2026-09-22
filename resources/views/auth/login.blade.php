@@ -9,7 +9,13 @@
     <div class="card shadow-sm border-0 w-100" style="max-width: 420px;">
         <div class="card-body p-4 p-md-5">
             <div class="text-center mb-4">
-                <h1 class="h3 mb-1 fw-semibold">Garage Management</h1>
+                <img
+                    src="{{ asset('storage/logo/logo-dark.png') }}"
+                    alt="Garage Management"
+                    class="mb-3"
+                    style="max-height: 40px; width: auto;"
+                >
+                <h1 class="h4 mb-1 fw-semibold">Welcome back</h1>
                 <p class="text-muted mb-0">Sign in to your admin account</p>
             </div>
 

@@ -8,7 +8,6 @@
         class="form-control @error('name') is-invalid @enderror"
         placeholder="e.g. John Doe"
         required
-        autofocus
     >
     @error('name')
         <div class="invalid-feedback">{{ $message }}</div>

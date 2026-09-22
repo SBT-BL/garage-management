@@ -2,13 +2,19 @@
 
 namespace App\Models;
 
+use Database\Factories\CustomerFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['name', 'whatsapp_number', 'address'])]
 class Customer extends Model
 {
+    /** @use HasFactory<CustomerFactory> */
+    use HasFactory;
+
     /**
      * Scope a query to search customers by name, WhatsApp number, or address.
      */
@@ -35,11 +41,11 @@ class Customer extends Model
         return strtoupper(mb_substr($this->name, 0, 1));
     }
 
-    /*
-     * Future relationship:
-     * public function vehicles(): HasMany
-     * {
-     *     return $this->hasMany(Vehicle::class);
-     * }
+    /**
+     * Get the vehicles for the customer.
      */
+    public function vehicles(): HasMany
+    {
+        return $this->hasMany(Vehicle::class);
+    }
 }

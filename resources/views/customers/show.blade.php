@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $customer->name.' — Garage Management')
+@section('page_title', 'Customer Details')
 
 @section('content')
 <div class="mb-3">
@@ -18,7 +19,14 @@
         </div>
     </div>
     <div class="d-flex flex-wrap gap-2 page-actions">
-        <a href="{{ route('admin.customers.edit', $customer) }}" class="btn btn-outline-secondary">
+        <a
+            href="#"
+            class="btn btn-outline-secondary"
+            data-ajax-popup="true"
+            data-size="md"
+            data-title="Edit Customer"
+            data-url="{{ route('admin.customers.edit', $customer) }}"
+        >
             <i class="bi bi-pencil me-1"></i> Edit
         </a>
         <button
@@ -60,23 +68,23 @@
         <div class="app-card p-4 h-100">
             <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3">
                 <h2 class="h6 text-uppercase text-muted mb-0">Vehicles</h2>
-                <button type="button" class="btn btn-sm btn-outline-secondary" disabled title="Coming soon">
+                <a
+                    href="#"
+                    class="btn btn-sm btn-success"
+                    data-ajax-popup="true"
+                    data-size="md"
+                    data-title="Add Vehicle"
+                    data-url="{{ route('admin.customers.vehicles.create', $customer) }}"
+                >
                     <i class="bi bi-plus-lg me-1"></i> Add Vehicle
-                </button>
+                </a>
             </div>
 
-            <div class="empty-state py-4">
-                <div class="empty-state-icon">
-                    <i class="bi bi-truck"></i>
-                </div>
-                <h3 class="h6 mb-2">No vehicles added yet</h3>
-                <p class="text-muted mb-0 small">
-                    Vehicles belonging to this customer will appear here.
-                </p>
-            </div>
+            @include('vehicles.partials.list', ['customer' => $customer])
         </div>
     </div>
 </div>
 
 @include('customers._delete-modal')
+@include('vehicles._delete-modal')
 @endsection

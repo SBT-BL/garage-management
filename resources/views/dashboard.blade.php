@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Dashboard — Garage Management')
+@section('page_title', 'Dashboard')
 
 @section('content')
 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">

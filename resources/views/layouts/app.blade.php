@@ -25,7 +25,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}?v={{ filemtime(public_path('css/admin.css')) }}" rel="stylesheet">
 
     @stack('styles')
 </head>
@@ -46,6 +46,7 @@
             @include('partials.footer')
         </div>
 
+        @include('partials.bottom-nav')
         @include('partials.common-modal')
     @else
         <main class="@yield('main_class', 'container py-4')">
@@ -85,15 +86,15 @@
                 }
 
                 toggle?.addEventListener('click', function () {
-                    if (isDesktop()) {
-                        body.classList.toggle('sidebar-collapsed');
-                        localStorage.setItem(
-                            storageKey,
-                            body.classList.contains('sidebar-collapsed') ? '1' : '0'
-                        );
-                    } else {
-                        body.classList.toggle('sidebar-open');
+                    if (!isDesktop()) {
+                        return;
                     }
+
+                    body.classList.toggle('sidebar-collapsed');
+                    localStorage.setItem(
+                        storageKey,
+                        body.classList.contains('sidebar-collapsed') ? '1' : '0'
+                    );
                 });
 
                 overlay?.addEventListener('click', closeMobileSidebar);

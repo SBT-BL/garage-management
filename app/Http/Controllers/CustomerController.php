@@ -9,6 +9,7 @@ use App\Models\Customer;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CustomerController extends Controller
@@ -19,6 +20,31 @@ class CustomerController extends Controller
     public function index(CustomersDataTable $dataTable): View|JsonResponse
     {
         return $dataTable->render('customers.index');
+    }
+
+    /**
+     * Return a paginated mobile card feed for infinite scroll.
+     */
+    public function cards(Request $request): JsonResponse
+    {
+        $customers = Customer::query()
+            ->withCount('vehicles')
+            ->search($request->string('q')->toString())
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
+
+        return response()->json([
+            'html' => view('customers.partials.mobile-cards', [
+                'customers' => $customers,
+            ])->render(),
+            'meta' => [
+                'current_page' => $customers->currentPage(),
+                'last_page' => $customers->lastPage(),
+                'has_more' => $customers->hasMorePages(),
+                'total' => $customers->total(),
+            ],
+        ]);
     }
 
     /**
@@ -34,10 +60,10 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request): RedirectResponse
     {
-        $customer = Customer::query()->create($request->validated());
+        Customer::query()->create($request->validated());
 
         return redirect()
-            ->route('admin.customers.show', $customer)
+            ->route('admin.customers.index')
             ->with('success', 'Customer created successfully.');
     }
 

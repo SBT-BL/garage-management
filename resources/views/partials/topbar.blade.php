@@ -1,8 +1,18 @@
 <header class="app-topbar">
     <div class="app-topbar-left">
+        <a href="{{ route('dashboard') }}" class="app-topbar-brand d-lg-none" title="Dashboard">
+            <img
+                src="{{ asset('storage/logo/logo-sm.png') }}"
+                alt="Garage Management"
+                class="app-topbar-brand-logo"
+                width="28"
+                height="28"
+                style="width: 28px; height: 28px; max-width: 28px; max-height: 28px; object-fit: contain;"
+            >
+        </a>
         <button
             type="button"
-            class="app-sidebar-toggle"
+            class="app-sidebar-toggle d-none d-lg-inline-flex"
             id="sidebarToggle"
             aria-label="Toggle sidebar"
             aria-controls="appSidebar"
@@ -30,6 +40,12 @@
                 <i class="bi bi-chevron-down small text-muted d-none d-md-inline"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                <li>
+                    <a class="dropdown-item d-lg-none" href="{{ route('dashboard') }}">
+                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="d-lg-none"><hr class="dropdown-divider"></li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

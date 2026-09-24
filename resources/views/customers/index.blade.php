@@ -8,8 +8,8 @@
 @endpush
 
 @section('content')
-<div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-start gap-3 mb-4">
-    <div>
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-start gap-3 mb-3 mb-lg-4">
+    <div class="d-none d-lg-block">
         <h1 class="page-header-title">Customers</h1>
         <p class="page-header-subtitle">Manage your garage customers</p>
     </div>
@@ -28,7 +28,14 @@
     </div>
 </div>
 
-<div class="app-card">
+<x-mobile-card-list
+    :url="route('admin.customers.cards')"
+    search-placeholder="Search customers..."
+    aria-label="Customers"
+/>
+
+{{-- Desktop: DataTable --}}
+<div class="app-card d-none d-lg-block">
     <div class="p-3 p-md-4">
         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3">
             <h2 class="h5 mb-0">Customers List</h2>

@@ -58,4 +58,23 @@ class CustomerModalFormTest extends TestCase
             ->assertSee(route('admin.customers.create'), false)
             ->assertSee(asset('js/custom.js'), false);
     }
+
+    public function test_storing_customer_redirects_back_to_index(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->post(route('admin.customers.store'), [
+                'name' => 'Nova Motors',
+                'whatsapp_number' => '+1 555-0100',
+                'address' => '12 Service Lane',
+            ])
+            ->assertRedirect(route('admin.customers.index'))
+            ->assertSessionHas('success');
+
+        $this->assertDatabaseHas('customers', [
+            'name' => 'Nova Motors',
+            'whatsapp_number' => '+1 555-0100',
+        ]);
+    }
 }

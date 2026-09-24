@@ -1,5 +1,5 @@
 /* Garage Management service worker — static assets only; Laravel pages stay network-first. */
-const CACHE_VERSION = 'gm-static-v2';
+const CACHE_VERSION = 'gm-static-v3';
 const STATIC_CACHE = `${CACHE_VERSION}-shell`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
@@ -21,10 +21,7 @@ self.addEventListener('install', (event) => {
         (async () => {
             const cache = await caches.open(STATIC_CACHE);
             await cache.addAll(PRECACHE_URLS);
-            // Activate immediately only on first install; updates wait for reload.
-            if (!self.registration.active) {
-                await self.skipWaiting();
-            }
+            await self.skipWaiting();
         })()
     );
 });
@@ -74,6 +71,12 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    // CSS/JS: network-first so APK/PWA picks up UI fixes quickly.
+    if (isShellAsset(url.pathname)) {
+        event.respondWith(networkFirst(request));
+        return;
+    }
+
     // Cache only versioned/static public assets — not dynamic app data.
     if (isStaticAsset(url.pathname)) {
         event.respondWith(cacheFirst(request));
@@ -85,6 +88,10 @@ function isHtmlRequest(request) {
     return accept.includes('text/html');
 }
 
+function isShellAsset(pathname) {
+    return pathname.startsWith('/css/') || pathname.startsWith('/js/');
+}
+
 function isStaticAsset(pathname) {
     if (
         pathname === '/manifest.json' ||
@@ -94,12 +101,7 @@ function isStaticAsset(pathname) {
         return true;
     }
 
-    return (
-        pathname.startsWith('/css/') ||
-        pathname.startsWith('/js/') ||
-        pathname.startsWith('/icons/') ||
-        pathname.startsWith('/build/')
-    );
+    return pathname.startsWith('/icons/') || pathname.startsWith('/build/');
 }
 
 async function networkOnlyNavigation(request) {
@@ -110,6 +112,34 @@ async function networkOnlyNavigation(request) {
         const cache = await caches.open(STATIC_CACHE);
         const offline = await cache.match('/offline.html');
         return offline || Response.error();
+    }
+}
+
+async function networkFirst(request) {
+    const cache = await caches.open(RUNTIME_CACHE);
+    const url = new URL(request.url);
+    const bareRequest = new Request(url.pathname, { credentials: request.credentials });
+
+    try {
+        const response = await fetch(request);
+
+        if (shouldCacheResponse(response)) {
+            await cache.put(bareRequest, response.clone());
+            await cache.put(request, response.clone());
+        }
+
+        return response;
+    } catch (error) {
+        const cached =
+            (await cache.match(request)) ||
+            (await cache.match(bareRequest)) ||
+            (await caches.open(STATIC_CACHE).then((staticCache) => staticCache.match(bareRequest)));
+
+        if (cached) {
+            return cached;
+        }
+
+        throw error;
     }
 }
 

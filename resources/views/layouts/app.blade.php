@@ -16,6 +16,7 @@
     <meta name="format-detection" content="telephone=no">
 
     <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
     <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('icons/icon-192x192.png') }}">
     <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('icons/icon-512x512.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('icons/apple-touch-icon.png') }}">

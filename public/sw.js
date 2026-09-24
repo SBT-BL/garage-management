@@ -1,5 +1,5 @@
 /* Garage Management service worker — static assets only; Laravel pages stay network-first. */
-const CACHE_VERSION = 'gm-static-v1';
+const CACHE_VERSION = 'gm-static-v2';
 const STATIC_CACHE = `${CACHE_VERSION}-shell`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 

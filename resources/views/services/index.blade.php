@@ -3,22 +3,52 @@
 @section('title', 'Services — Garage Management')
 @section('page_title', 'Services')
 
+@push('styles')
+    @include('partials.datatable-styles')
+@endpush
+
 @section('content')
-<div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-start gap-3 mb-4">
-    <div>
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-start gap-3 mb-3 mb-lg-4">
+    <div class="d-none d-lg-block">
         <h1 class="page-header-title">Services</h1>
-        <p class="page-header-subtitle">Garage service catalog and pricing</p>
+        <p class="page-header-subtitle">Manage your garage services</p>
+    </div>
+    <div class="page-actions">
+        <a
+            href="#"
+            class="btn btn-success"
+            data-ajax-popup="true"
+            data-size="md"
+            data-title="Create New Service"
+            data-url="{{ route('admin.services.create') }}"
+            title="Create"
+        >
+            <i class="bi bi-plus-lg me-1"></i> Add Service
+        </a>
     </div>
 </div>
 
-<div class="app-card placeholder-module">
-    <div class="placeholder-module-icon" aria-hidden="true">
-        <i class="bi bi-wrench-adjustable"></i>
+<x-mobile-card-list
+    :url="route('admin.services.cards')"
+    search-placeholder="Search services..."
+    aria-label="Services"
+/>
+
+{{-- Desktop: DataTable --}}
+<div class="app-card d-none d-lg-block">
+    <div class="p-3 p-md-4">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3">
+            <h2 class="h5 mb-0">Services List</h2>
+        </div>
+
+        {!! $dataTable->table(['class' => 'table table-hover table-customers dt-responsive nowrap w-100 mb-0']) !!}
     </div>
-    <h2 class="placeholder-module-title">Services coming soon</h2>
-    <p class="placeholder-module-text">
-        Create and manage service items, labor rates, and packages here.
-        Full CRUD will be available in a future update.
-    </p>
 </div>
+
+@include('services._delete-modal')
 @endsection
+
+@push('scripts')
+    @include('partials.datatable-scripts')
+    {!! $dataTable->scripts(attributes: ['type' => 'text/javascript']) !!}
+@endpush

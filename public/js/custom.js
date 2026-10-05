@@ -65,7 +65,7 @@
             e.preventDefault();
 
             const $el = $(this);
-            const url = $el.data('url');
+            const url = $el.attr('data-url');
 
             if (!url) {
                 return;
@@ -87,7 +87,7 @@
             e.preventDefault();
 
             const $el = $(this);
-            let url = $el.data('url');
+            let url = $el.attr('data-url');
             const validate = $el.attr('data-validate');
 
             if (!url) {

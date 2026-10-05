@@ -71,6 +71,16 @@
                 url.searchParams.set('q', query);
             }
 
+            const filterForm = root.dataset.filterForm
+                ? document.querySelector(root.dataset.filterForm)
+                : null;
+
+            if (filterForm) {
+                new FormData(filterForm).forEach(function (value, key) {
+                    url.searchParams.set(key, String(value));
+                });
+            }
+
             try {
                 const response = await fetch(url.toString(), {
                     headers: {
@@ -149,6 +159,10 @@
             query = '';
             loadPage(true);
             searchInput.focus();
+        });
+
+        root.addEventListener('mobile-card-list:reload', function () {
+            loadPage(true);
         });
 
         loadPage(true);

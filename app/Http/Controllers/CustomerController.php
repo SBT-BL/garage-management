@@ -58,9 +58,13 @@ class CustomerController extends Controller
     /**
      * Store a newly created customer.
      */
-    public function store(StoreCustomerRequest $request): RedirectResponse
+    public function store(StoreCustomerRequest $request): RedirectResponse|JsonResponse
     {
-        Customer::query()->create($request->validated());
+        $customer = Customer::query()->create($request->validated());
+
+        if ($request->expectsJson()) {
+            return response()->json($customer->selectOption());
+        }
 
         return redirect()
             ->route('admin.customers.index')

@@ -34,6 +34,19 @@ class Customer extends Model
     }
 
     /**
+     * Option payload for Select2.
+     *
+     * @return array{id: int, text: string}
+     */
+    public function selectOption(): array
+    {
+        return [
+            'id' => $this->id,
+            'text' => $this->name,
+        ];
+    }
+
+    /**
      * Get the customer's display initial for avatars.
      */
     public function initial(): string
@@ -47,5 +60,13 @@ class Customer extends Model
     public function vehicles(): HasMany
     {
         return $this->hasMany(Vehicle::class);
+    }
+
+    /**
+     * Get the job cards for the customer.
+     */
+    public function jobCards(): HasMany
+    {
+        return $this->hasMany(JobCard::class);
     }
 }

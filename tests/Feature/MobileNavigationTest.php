@@ -17,18 +17,22 @@ class MobileNavigationTest extends TestCase
         $this->actingAs($user)
             ->get(route('admin.services.index'))
             ->assertOk()
-            ->assertSee('Services coming soon', false)
+            ->assertSee('Add Service', false)
+            ->assertSee('Services List', false)
+            ->assertDontSee('Services coming soon', false)
             ->assertSee('app-bottom-nav', false);
     }
 
-    public function test_authenticated_user_can_view_job_cards_placeholder(): void
+    public function test_authenticated_user_can_view_job_cards_list(): void
     {
         $user = User::factory()->create();
 
         $this->actingAs($user)
             ->get(route('admin.job-cards.index'))
             ->assertOk()
-            ->assertSee('Job card form coming soon', false)
+            ->assertSee('Add Job Card', false)
+            ->assertSee('Job Cards List', false)
+            ->assertDontSee('Job card form coming soon', false)
             ->assertSee('app-bottom-nav', false);
     }
 

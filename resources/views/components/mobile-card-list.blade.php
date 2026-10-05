@@ -16,24 +16,29 @@
     data-cards-url="{{ $url }}"
     data-error-message="{{ $errorMessage }}"
 >
-    <div class="mobile-search-bar">
-        <i class="bi bi-search" aria-hidden="true"></i>
-        <input
-            type="search"
-            class="mobile-search-input"
-            data-mobile-card-search
-            placeholder="{{ $searchPlaceholder }}"
-            autocomplete="off"
-            enterkeyhint="search"
-        >
-        <button
-            type="button"
-            class="mobile-search-clear d-none"
-            data-mobile-card-clear
-            aria-label="Clear search"
-        >
-            <i class="bi bi-x-lg" aria-hidden="true"></i>
-        </button>
+    <div class="{{ isset($filters) ? 'mobile-list-toolbar' : '' }}">
+        <div class="mobile-search-bar">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <input
+                type="search"
+                class="mobile-search-input"
+                data-mobile-card-search
+                placeholder="{{ $searchPlaceholder }}"
+                autocomplete="off"
+                enterkeyhint="search"
+            >
+            <button
+                type="button"
+                class="mobile-search-clear d-none"
+                data-mobile-card-clear
+                aria-label="Clear search"
+            >
+                <i class="bi bi-x-lg" aria-hidden="true"></i>
+            </button>
+        </div>
+        @isset($filters)
+            {{ $filters }}
+        @endisset
     </div>
 
     <div class="mobile-card-grid" data-mobile-card-grid aria-live="polite"></div>

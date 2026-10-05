@@ -6,6 +6,8 @@ use App\Http\Requests\StoreVehicleRequest;
 use App\Http\Requests\UpdateVehicleRequest;
 use App\Models\Customer;
 use App\Models\Vehicle;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -22,9 +24,13 @@ class VehicleController extends Controller
     /**
      * Store a newly created vehicle for the customer.
      */
-    public function store(StoreVehicleRequest $request, Customer $customer): RedirectResponse
+    public function store(StoreVehicleRequest $request, Customer $customer): RedirectResponse|JsonResponse
     {
-        $customer->vehicles()->create($request->validated());
+        $vehicle = $customer->vehicles()->create($request->validated());
+
+        if ($request->expectsJson()) {
+            return response()->json($vehicle->selectOption());
+        }
 
         return redirect()
             ->route('admin.customers.show', $customer)
@@ -64,7 +70,13 @@ class VehicleController extends Controller
      */
     public function destroy(Customer $customer, Vehicle $vehicle): RedirectResponse
     {
-        $vehicle->delete();
+        try {
+            $vehicle->delete();
+        } catch (QueryException) {
+            return redirect()
+                ->route('admin.customers.show', $customer)
+                ->with('error', 'This vehicle cannot be deleted because related records still exist.');
+        }
 
         return redirect()
             ->route('admin.customers.show', $customer)

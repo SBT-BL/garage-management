@@ -10,7 +10,7 @@
         <div class="card-body p-4 p-md-5">
             <div class="text-center mb-4">
                 <img
-                    src="{{ asset('storage/logo/logo-dark.png') }}"
+                    src="{{ asset('logo/logo-dark.png') }}"
                     alt="Garage Management"
                     class="mb-3"
                     style="max-height: 40px; width: auto;"

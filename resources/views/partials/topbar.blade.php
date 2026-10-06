@@ -2,7 +2,7 @@
     <div class="app-topbar-left">
         <a href="{{ route('dashboard') }}" class="app-topbar-brand d-lg-none" title="Dashboard">
             <img
-                src="{{ asset('storage/logo/logo-sm.png') }}"
+                src="{{ asset('logo/logo-sm.png') }}"
                 alt="Garage Management"
                 class="app-topbar-brand-logo"
                 width="28"

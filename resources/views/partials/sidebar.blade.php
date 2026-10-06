@@ -1,7 +1,7 @@
 <aside class="app-sidebar d-none d-lg-flex" id="appSidebar" aria-label="Main navigation">
     <a href="{{ route('dashboard') }}" class="app-sidebar-brand" title="Garage Management">
         <img
-            src="{{ asset('storage/logo/logo-dark.png') }}"
+            src="{{ asset('logo/logo-dark.png') }}"
             alt="Garage Management"
             class="logo-lg"
             width="160"
@@ -9,7 +9,7 @@
             style="max-height: 28px; max-width: 160px; width: auto; height: auto; object-fit: contain;"
         >
         <img
-            src="{{ asset('storage/logo/logo-sm.png') }}"
+            src="{{ asset('logo/logo-sm.png') }}"
             alt="Garage Management"
             class="logo-sm"
             width="28"

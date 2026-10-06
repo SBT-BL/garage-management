@@ -83,6 +83,14 @@
             @include('vehicles.partials.list', ['customer' => $customer])
         </div>
     </div>
+
+    <div class="col-12">
+        <div class="app-card p-4">
+            <h2 class="h6 text-uppercase text-muted mb-3">Job Card History</h2>
+
+            @include('customers.partials.job-card-history', ['customer' => $customer])
+        </div>
+    </div>
 </div>
 
 @include('customers._delete-modal')

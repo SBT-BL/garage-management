@@ -76,7 +76,13 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer): View
     {
-        $customer->load(['vehicles' => fn ($query) => $query->latest()]);
+        $customer->load([
+            'vehicles' => fn ($query) => $query->latest(),
+            'jobCards' => fn ($query) => $query
+                ->with('vehicle:id,vehicle_number,vehicle_model')
+                ->latest('date')
+                ->latest('id'),
+        ]);
 
         return view('customers.show', compact('customer'));
     }

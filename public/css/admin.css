@@ -1111,6 +1111,14 @@ body.sidebar-collapsed .app-menu-link {
     letter-spacing: 0.04em;
 }
 
+.mobile-card-amount {
+    margin: 0.35rem 0 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--app-accent);
+    line-height: 1.2;
+}
+
 .mobile-card-body-with-status {
     padding-bottom: 0.45rem;
 }

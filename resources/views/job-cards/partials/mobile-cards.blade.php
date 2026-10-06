@@ -38,6 +38,7 @@
             <h3 class="mobile-card-title">{{ $jobCard->customer->name }}</h3>
             <p class="mobile-card-subtitle">{{ $jobCard->vehicle->optionLabel() }}</p>
             <p class="mobile-card-meta">{{ $jobCard->date->format('M j, Y') }}</p>
+            <p class="mobile-card-amount">{{ number_format((float) $jobCard->grand_total, 2) }}</p>
         </a>
         <div class="mobile-card-status-picker">
             @include('job-cards.partials.status-select', ['jobCard' => $jobCard])

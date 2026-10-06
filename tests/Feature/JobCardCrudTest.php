@@ -535,6 +535,21 @@ class JobCardCrudTest extends TestCase
             ->assertSee('GJ01AB1234 - Swift', false);
     }
 
+    public function test_cards_feed_shows_the_job_card_total(): void
+    {
+        $user = User::factory()->create();
+        JobCard::factory()->create([
+            'grand_total' => '1250.50',
+            'date' => now()->toDateString(),
+            'status' => JobCardStatus::Pending,
+        ]);
+
+        $this->actingAs($user)
+            ->getJson(route('admin.job-cards.cards'))
+            ->assertOk()
+            ->assertSee('1,250.50', false);
+    }
+
     public function test_cards_feed_filters_by_status(): void
     {
         $user = User::factory()->create();
